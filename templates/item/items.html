@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %} Browse {% endblock title %} 
+{% block content %}
+<div class="pb-6 grid grid-cols-4 gap-4 bg-gray-100">
+    <div class="col-span-1">
+        <form method="get" action="{% url 'item:browse' %}">
+         <input name="query" type="text" class="m-2 w-full py-4 px-6 border rounded-xl" value="{{query}}" placeholder="Find a Laptop , a Phone , a Game etc" >
+         <button class="m-2 py-4 px-8 text-lg bg-teal-500 rounded-xl text-white text-center" >Submit</button>
+        </form>
+        <hr class="my-6">
+        <p class="font-semibold">Categories</p>
+        <ul>
+          {% for category in categories %}
+          <li class="py-2 px-2 rounded-xl{% if category_id == category.id %} bg-gray-200{% endif %}">
+            <a href="{% url 'item:browse' %}?query={{ query }}&category={{ category.id }}">{{ category.name }}</a>
+          </li>
+          {% endfor %}
+        </ul>
+
+        <p class="font-semibold">Reset Filter</p>
+        <ul>
+          <li><a href="{% url 'item:browse' %}" class="mt-2 py-4 px-8 inline-block text-white bg-blue-400 text-lg rounded-xl">Reset</a></li>
+        </ul>
+    </div>
+    <div class ="col-span-3">
+        <div class="grid grid-cols-3 gap-3 ">
+            {% for item in items %}
+             <div> 
+              <a href="{% url 'item:detail' item.id %}">
+                      <div>
+                            <img src="{{item.image.url}}" class="rounded-t-xl" alt="">
+                            <div class="p-6 bg-white rounded-b-xl">
+                              <h2 class="text-2xl ">{{ item.name }}</h2> 
+                               <p class="text-gray-500">Price : {{ item.price }}</p>
+
+                            </div>
+                      </div>      
+                    </a>
+             </div>
+            {% endfor %}
+    </div>
+</div>
+{% endblock content %}
+
+
